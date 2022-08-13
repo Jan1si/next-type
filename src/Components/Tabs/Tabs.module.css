@@ -1,0 +1,15 @@
+.tabs__header {
+    padding: 16px 0;
+    border-bottom: 1px solid #E1E1E6;
+}
+
+.tabs__buttons{
+    display:flex;
+    grid-gap: 40px;
+}
+
+
+
+.tabs__body{
+    margin-top:30px;
+}

@@ -1,0 +1,15 @@
+.header__app{
+    padding-top:60px;
+    padding-bottom:30px
+}
+
+.header__title{
+    font-size: 32px;
+    font-family: "Roboto-Bold";
+}
+
+.header__subtitle{
+    font-size: 16px;
+    line-height:24px;
+    margin-top: 15px;
+}
