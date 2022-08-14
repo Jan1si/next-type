@@ -1,7 +1,11 @@
 .slider__container{
-    
+    display: none;
     position:relative;
     width: 100%;
+}
+
+.slider__container_active{
+    display: block;
 }
 
 .sliders__cards{
