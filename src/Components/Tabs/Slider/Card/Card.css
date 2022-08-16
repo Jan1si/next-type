@@ -1,5 +1,4 @@
 .card{
-    position:relative;
     background: white;
     max-width: 320px;
     max-height: 470px;
@@ -82,4 +81,14 @@
     color: #2244CC;
     font-size:16px;
     word-break: break-all;
+}
+
+.card__skeleton{
+    max-width: 320px;
+    max-height: 470px;
+}
+
+.list__card_skeleton{
+    display: flex;
+    grid-gap:15px;
 }
