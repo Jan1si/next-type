@@ -1,80 +1,78 @@
-import Slider from "./Slider/Slider";
-import Button from "./Button";
-import classes from "./Tabs.module.css";
-import React, { useState, useEffect } from "react";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-import CardSkeleton from "./Slider/Card/CardSkeleton";
-// import TabsSkeleton from "./TabsSkeleton";
+import Slider from "./Slider/Slider"; // Импорт компонента "Слайдер"
+import Tab from "./Tab"; // Импорт компонента "кнопка табы"
+import React, { useState, useEffect } from "react"; // Импорт хуков
+import Skeleton from 'react-loading-skeleton'; // Импорт модуля для создания прелоадера компонентов
+import 'react-loading-skeleton/dist/skeleton.css'; // Импорт стилей для  прелоадера компонентов
+import CardSkeleton from "./Slider/Card/CardSkeleton"; // Импорт скелета карточки
 
 function Tabs() {
 
-    // Получение даных с API
-    const baseUrlTabs = "https://my-json-server.typicode.com/glebov-g/frontend-fake-db/categories";
-    const [dataTabs, setDataTabs] = useState([]);
-    const [isLoadingTabs, setLoadingTabs] = useState(true);
-    useEffect(() => {
+    // Получение даных с API для табов
+    const baseUrlTabs = "https://my-json-server.typicode.com/glebov-g/frontend-fake-db/categories"; // URL к api 
+    const [dataTabs, setDataTabs] = useState([]); // useState для занесения данных табов в массив
+    const [isLoadingTabs, setLoadingTabs] = useState(true); // useState для установки состояния загрузки табов
+
+    useEffect(() => { // Вызов хука "useEffect" для получения данных из API
         fetch(baseUrlTabs)
             .then(responce => responce.json())
-            .then(dataJson => {
-                setDataTabs(dataJson);
-                setLoadingTabs(false);
+            .then(tabs => {
+                setDataTabs(tabs); // Занесения полученных табов в массив "dataTabs"
+                setLoadingTabs(false); // Отключение прилоадера табов
             })
     }, []);
 
 
     // Получение данных для карточек в слайдере с API 
-    const baseUrlSlider = "https://my-json-server.typicode.com/glebov-g/frontend-fake-db/items";
+    const baseUrlSlider = "https://my-json-server.typicode.com/glebov-g/frontend-fake-db/items"; // URL к api 
+    const [dataSlides, setDataSlides] = useState([]); // useState для занесения данных карточек слайдера в массив
+    const [isLoadingSlides, setLoadingSlides] = useState(true); // useState для установки состояния загрузки карточек
 
-    // Вызов хука "useState" для объявления состояния  "data" 
-    const [dataSlides, setDataSlides] = useState([]);
-    const [isLoadingSlides, setLoadingSlides] = useState(true);
-
-    // Вызов хука "useEffect" для получения данных из API
-    useEffect(() => {
+    useEffect(() => { // Вызов хука "useEffect" для получения данных из API
         fetch(baseUrlSlider)
             .then(respoce => respoce.json())
-            .then(dataJson => {
-                setDataSlides(dataJson);
-                setLoadingSlides(false);
+            .then(slides => {
+                setDataSlides(slides); // Занесения полученных карточек в массив "dataSlides"
+                setLoadingSlides(false); // Отключение прилоадера карточек
             })
-            
     }, []);
 
 
-    const [toggleState, setToggleState] = useState(1);
+    const [toggleState, setToggleState] = useState(1); // useState для установки состояния активного таба
 
-    function toggleTab(e) {
+    function toggleTab(e) { // Функция для переключения табов
         setToggleState(e.target.tabIndex);
     }
 
     return (
-        <div className={classes.tabs__conteiner}>
-            <div className={classes.tabs__header}>
-                
-                {isLoadingTabs &&  <Skeleton height={35} />}
-                <ul className={classes.tabs__buttons}>
-                    
-                    
-                    {dataTabs.map((item, index) => (
-                        <Button key={index}
-                            tabIndex={item.id}
-                            currentTab={toggleState}
-                            nameBtn={item.name}
-                            onClick={() => toggleTab} />
+        
+        <div className="tabs__conteiner">
+
+            <div className="tabs__header">
+                {isLoadingTabs && <Skeleton height={35} />} {/* Вызов прелоадера" */}
+                <ul className="tabs__buttons">
+                    {dataTabs.map((item, index) => ( // Рендер "Табов"
+                        <Tab
+                            key={index} // Передача в таб уникального ключа
+                            tabIndex={item.id} // Передача в таб индекса таба
+                            currentTab={toggleState} // Передача в таб текущего активного таба
+                            nameBtn={item.name} // Передача в таб пропса с именем кнопки
+                            onClick={() => toggleTab} /> // Передача в таб пропса с функциией переключения таба
                     ))}
                 </ul>
             </div>
-            <div className={classes.tabs__body}>
-                {isLoadingSlides && <CardSkeleton cards={4} /> }
-                {dataTabs.map((item, index) => (
-                    <Slider key={index}
-                        tabIndex={item.id}
-                        currentTab={toggleState}
-                        onClick={() => toggleTab}
-                        dataCard={dataSlides} />
+
+            <div className="tabs__body">
+                {isLoadingSlides && <CardSkeleton cards={4} />} {/* Вызов прелоадера и передача в него количество создаваемых скелетов карточек */}
+                {dataTabs.map((item, index) => ( // Рендер "Слайдера"
+                    <Slider
+                        key={index} // Передача в слайдер уникального ключа
+                        tabIndex={item.id} // Передача в слайдер индекса таба
+                        currentTab={toggleState} // Передача в слайдер текущего активного таба
+                        onClick={() => toggleTab}  // Передача в таб пропса с функциией переключения слайдера
+                        dataCard={dataSlides} /> // Передача в слайдер данных для карточек
                 ))}
             </div>
+
         </div>
     );
 }

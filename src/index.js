@@ -2,21 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Header from './Components/Header/Header';
-import Tabs from './Components/Tabs/Tabs';
+import App from "./Components/App";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+
+let root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <div className="wrapper__app">
-    <Header />
-    <div className="body__app">
-      <React.StrictMode>
-        <Tabs />
-      </React.StrictMode>
-    </div>
-  </div>
-  
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

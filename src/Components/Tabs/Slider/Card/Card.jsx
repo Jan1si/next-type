@@ -1,6 +1,5 @@
 import SimpleBar from 'simplebar-react'; // Импорт модуля для кастомного скролла 
 import 'simplebar/dist/simplebar.min.css'; // Импорт стилей для кастомного скролла
-import "./Card.css"; // Импорт стилей для карточек
 import Tag from './Tag'; // Импорт компонента "Тэг"
 
 function Card(props) {
@@ -9,14 +8,7 @@ function Card(props) {
         // Рендере карточки 
         <div className="card">
             {/* Инициализация модуля SimpleBar ("Кастомный скролл для карточек") */}
-            <SimpleBar autoHide={false} style={
-                {
-                    maxHeight: 470,
-                    maxWidth: 320,
-                    width: 320,
-                }
-            }
-            >
+            <SimpleBar autoHide={false} >
                 <img src={props.image} alt="" className="card__image" />
                 <div className="card__text">
                     <p className="card__desc">
