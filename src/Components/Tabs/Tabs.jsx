@@ -44,7 +44,7 @@ function Tabs() {
     }
 
     return (
-        
+
         <div className="tabs__conteiner">
 
             <div className="tabs__header">
@@ -66,11 +66,13 @@ function Tabs() {
                 {dataTabs.map((item, index) => ( // Рендер "Слайдера"
                     <Slider
                         key={index} // Передача в слайдер уникального ключа
-                        tabIndex={item.id} // Передача в слайдер индекса таба
+                        tabIndex={item.id} // Передача в слайдер индекса  таба
                         currentTab={toggleState} // Передача в слайдер текущего активного таба
                         onClick={() => toggleTab}  // Передача в таб пропса с функциией переключения слайдера
                         dataCard={dataSlides} /> // Передача в слайдер данных для карточек
                 ))}
+                
+                
             </div>
 
         </div>

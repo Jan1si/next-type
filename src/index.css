@@ -234,6 +234,26 @@
 
 [data-simplebar="init"] {
     width: 320px !important;
+    height:470px !important;
+}
+
+
+.bullets{
+    display: none;
+    flex-flow:row nowrap;
+    justify-content: center;
+    grid-gap: 5px;
+    margin:50px 0;
+}
+.bullet{
+    display: block;
+    width:30px;
+    height: 5px;
+    background:rgb(222, 222, 222);
+    cursor: pointer;
+}
+.bullet_active{
+    background:rgb(42, 73, 228);
 }
 
 @media(max-width:1400px) {
@@ -279,10 +299,14 @@
         width: 338px !important;
     }
 
+    .bullets{
+        display: flex;
+    }
+
     .next__slide,
-.prev__slide {
-   display: none;
-}
+    .prev__slide {
+    display: none;
+    }
 
 }
 
