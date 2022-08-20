@@ -87,15 +87,35 @@
     color: #4A4A4F;
 }
 
+.tabs_active::after{
+    content: '';
+    display: block;
+    position: absolute;
+    width:100%;
+    height: 2px;
+    background:#2244CC;
+    margin-top: 15px;
+    cursor:default;
+}
 
 /* slider */
 
-.slider__container {
+
+
+.slider__container,.mobil_slider__container {
     display: none;
     position: relative;
     width: 100%;
     overflow: hidden;
 }
+
+.slider__container_active{
+    display: block;
+}
+
+.mobil_slider__container_active{
+    display: none;
+}   
 
 .sliders__cards {
     display: flex;
@@ -140,7 +160,7 @@
     position: relative;
     background: white;
     max-width: 320px;
-    max-height: 470px;
+    max-height: 475px;
     border: 1px solid #E1E1E6;
     cursor: pointer;
 }
@@ -228,8 +248,9 @@
 }
 
 .list__card_skeleton {
+    overflow: hidden;
     display: flex;
-    grid-gap: 15px;
+    grid-gap: 43px;
 }
 
 [data-simplebar="init"] {
@@ -239,12 +260,13 @@
 
 
 .bullets{
-    display: none;
+    display: flex;
     flex-flow:row nowrap;
     justify-content: center;
     grid-gap: 5px;
     margin:50px 0;
 }
+
 .bullet{
     display: block;
     width:30px;
@@ -265,6 +287,12 @@
         max-width: 288px;
     }
 
+    .list__card_skeleton {
+        overflow: hidden;
+        display: flex;
+        grid-gap: 5px;
+    }
+
     [data-simplebar="init"] {
         width: 288px !important;
         max-height: 470px !important;
@@ -279,7 +307,11 @@
     .header__app {
         padding-top: 32px;
     }
-
+    .list__card_skeleton {
+        overflow: hidden;
+        display: flex;
+        grid-gap: 5px;
+    }
 }
 
 @media(max-width:640px) {
@@ -291,21 +323,29 @@
         justify-content: center;
     }
 
-    .card{
+    .mobil_slider__container_active{
+        display: block;
+    }
+
+    .mobile__card{
+        position: relative;
+        display:none;
         max-width: 338px;
+        background: white;
+        max-height: 475px;
+        border: 1px solid #E1E1E6;
+        cursor: pointer;
+    }
+
+    .mobile__card_active {
+        display: block;
     }
 
     [data-simplebar="init"] {
         width: 338px !important;
     }
-
-    .bullets{
-        display: flex;
-    }
-
-    .next__slide,
-    .prev__slide {
-    display: none;
+    .slider__container_active{
+        display: none;
     }
 
 }
@@ -313,10 +353,6 @@
 @media(max-width:380px) {
     .wrapper__app {
         max-width: 300px;
-    }
-
-    .card{
-        max-width: 298px;
     }
 
     [data-simplebar="init"] {

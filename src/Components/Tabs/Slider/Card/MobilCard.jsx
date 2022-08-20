@@ -6,7 +6,7 @@ function Card(props) {
     // Данные для карточек приходят из props переданных из слайдера
     return (
         // Рендере карточки 
-        <div  className="card">
+        <a href={props.url} className={`mobile__card ${props.currentSlide === (props.cardIndex + 1) || (props.cardIndex + 1) === 6 ? "mobile__card_active" : " "} `}>
             {/* Инициализация модуля SimpleBar ("Кастомный скролл для карточек") */}
             <SimpleBar autoHide={false} >
                 <img src={props.image} alt="" className="card__image" />
@@ -25,7 +25,7 @@ function Card(props) {
 
             {/* Рендер белой тени в низу карточки */}
             <div className="shadow__card"></div>
-        </div>
+        </a>
     );
 
 }

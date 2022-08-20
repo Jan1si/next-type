@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react"; // Импорт хуков
 import Skeleton from 'react-loading-skeleton'; // Импорт модуля для создания прелоадера компонентов
 import 'react-loading-skeleton/dist/skeleton.css'; // Импорт стилей для  прелоадера компонентов
 import CardSkeleton from "./Slider/Card/CardSkeleton"; // Импорт скелета карточки
+import MobilSlider from "./Slider/MobilSlider";
 
 function Tabs() {
 
@@ -63,15 +64,24 @@ function Tabs() {
 
             <div className="tabs__body">
                 {isLoadingSlides && <CardSkeleton cards={4} />} {/* Вызов прелоадера и передача в него количество создаваемых скелетов карточек */}
+                
                 {dataTabs.map((item, index) => ( // Рендер "Слайдера"
                     <Slider
                         key={index} // Передача в слайдер уникального ключа
                         tabIndex={item.id} // Передача в слайдер индекса  таба
                         currentTab={toggleState} // Передача в слайдер текущего активного таба
-                        onClick={() => toggleTab}  // Передача в таб пропса с функциией переключения слайдера
-                        dataCard={dataSlides} /> // Передача в слайдер данных для карточек
+                        dataCard={dataSlides} // Передача в слайдер данных для карточек
+                        /> 
                 ))}
                 
+                {dataTabs.map((item, index) => ( // Рендер "Слайдера для мобильных устойств"
+                    <MobilSlider
+                        key={index} // Передача в слайдер уникального ключа
+                        tabIndex={item.id} // Передача в слайдер индекса  таба
+                        currentTab={toggleState} // Передача в слайдер текущего активного таба
+                        dataCard={dataSlides} // Передача в слайдер данных для карточек
+                        /> 
+                ))}
                 
             </div>
 

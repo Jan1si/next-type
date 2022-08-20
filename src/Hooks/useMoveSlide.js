@@ -1,107 +1,57 @@
-import {useState} from "react";
-function useNextSlide(offsetValue, showCardValue) {
+import { useState } from "react"; // Импорт хука "useState"
+export default function useMoveSlide() {
 
-    const [offetWidth, setOffsetWidth] = useState(offsetValue)
-    let showCard = showCardValue; // Колличество карточек для показа
+    const [ref, setRef] = useState(''); // Инициализация "useState", который приниманет поле с карточками
 
-    function getTrack(track) {
-        setOffsetWidth(-(+window.getComputedStyle(track.childNodes[0]).width.slice(0, (window.getComputedStyle(track.childNodes[0]).width.length - 2)) + 15));
-    }
-    console.log(offetWidth);
-    // Функция переключение слайдера вперёд
-    function nextSlide(track) {
-        const trackSlider = track.current;
-        const widthCard = +window.getComputedStyle(trackSlider.childNodes[0]).width.slice(0, (window.getComputedStyle(trackSlider.childNodes[0]).width.length - 2));
-        let widthTrack = +window.getComputedStyle(trackSlider).width.slice(0, (window.getComputedStyle(trackSlider).width.length - 2));
-        resizeScreen(trackSlider, widthTrack);
-        if (offetWidth < -((widthCard + 15) * (trackSlider.childNodes.length - showCard))) {
-            trackSlider.style = `transform: translateX(${setOffsetWidth(0), offetWidth}px);`;
+    const cards = ref.childNodes; // Получение всех карточек
+    const sliderWrapper = ref; // Получение поля с карточками
+    let offset = 0; // Получение смещение поля с карточками
+
+    function clickNextSlide(){
+        // Получение ширины поля с карточками
+        const widthWrapper = +getComputedStyle(sliderWrapper).width.slice(0, (getComputedStyle(sliderWrapper).width).length - 2);
+        // Получение ширины карточки
+        const widthCard = +getComputedStyle(cards[0]).width.slice(0, (getComputedStyle(cards[0]).width).length - 2) + 15;
+        let maxOffset = ((widthCard * cards.length) - widthWrapper) -10; // Расчёт максимального смещения поля с карточками
+        
+        resize(sliderWrapper) // Вызов функции обнуления смещения при изменении размера окна браузера
+
+        if (offset >= maxOffset ) {
+            offset = 0;
         } else {
-            trackSlider.style = `transform: translateX(${setOffsetWidth(offetWidth - (widthCard + 15)), offetWidth}px);`;
+            offset += widthCard;
         }
-            // trackSlider.style = `transform: translateX(${offetWidth}px);`;  
+        sliderWrapper.style.transform = `translateX(-${offset}px)`; // Смещение поля с карточками
+    }
+
+    
+    function clickPrevSlide(){
+        // Получение ширины поля с карточками
+        const widthCard = +getComputedStyle(cards[0]).width.slice(0, (getComputedStyle(cards[0]).width).length - 2) + 15;
+
+        resize(sliderWrapper) // Вызов функции обнуления смещения при изменении размера окна браузера
+
+        if (offset === 0 ) {
+            offset = 0;
+        } else {
+            offset -= widthCard;
+        }
+        sliderWrapper.style.transform = `translateX(-${offset}px)`; // Смещение поля с карточками
     }
     
-    // Функция переключение слайдера назад
-    function prevSlide(track) {
-        const trackSlider = track.current;
-        getTrack(trackSlider);
-        const widthCard = +window.getComputedStyle(trackSlider.childNodes[0]).width.slice(0, (window.getComputedStyle(trackSlider.childNodes[0]).width.length - 2));
-        let widthTrack = +window.getComputedStyle(trackSlider).width.slice(0, (window.getComputedStyle(trackSlider).width.length - 2));
-        resizeScreen(trackSlider, widthTrack);
-        if (offetWidth === 0) {
-            trackSlider.style = `transform: translateX(0px);`;
-        } else {
-            setOffsetWidth(offetWidth + (widthCard + 15))
-            trackSlider.style = `transform: translateX(${offetWidth}px);`;
-        }
-        
-        
-    }
 
-    // Функция обнуления отступа при именении разрешения 
-    function resizeScreen(trackSlider, widthTrack) {
+    function resize(sliderWrapper) { // Функция обнуления смещения при изменении ширины окна обраузера
         window.onresize = () => {
-            getTrack(trackSlider);
-            trackSlider.style = `transform: translateX(0px);`;
-            widthTrack = +window.getComputedStyle(trackSlider).width.slice(0, (window.getComputedStyle(trackSlider).width.length - 2));
-            if (widthTrack > 900) {
-                showCard = 4;
-            } else if (widthTrack <= 900 && widthTrack > 600) {
-                showCard = 3;
-            } else if (widthTrack <= 600 && widthTrack > 340) {
-                showCard = 2;
-            } else if (widthTrack <= 340) {
-                showCard = 1;
-            }
-        }
-
-        if (widthTrack > 900) {
-            showCard = 4;
-        } else if (widthTrack <= 900 && widthTrack > 600) {
-            showCard = 3;
-        } else if (widthTrack <= 600 && widthTrack > 340) {
-            showCard = 2;
-        } else if (widthTrack <= 340) {
-            showCard = 1;
+            offset = 0;
+            sliderWrapper.style.transform = `translateX(${offset}px)`; // Смещение поля с карточками
         }
     }
 
-    let xClient1 = null;
-    let yClient1 = null;
 
-    // Функция определения косания пользователя 
-    function touchStart(event) {
-        const firstTouch = event.touches[0]
-        xClient1 = firstTouch.clientX;
-        yClient1 = firstTouch.clientY;
-    }
-
-    function touchMove(event, track) {
-        if (!xClient1) {
-            return false;
-        }
-        let xClient2 = event.changedTouches[0].clientX;
-        let yClient2 = event.changedTouches[0].clientY;
-        let xDiff = xClient2 - xClient1;
-        let yDiff = yClient2 - yClient1;
-
-        if (Math.abs(xDiff) > Math.abs(yDiff)){
-            xDiff > 0 ? prevSlide(track)  : nextSlide(track) ;
-        } 
-        
-        xClient1 = null;
-        yClient1 = null;
-    }
-    
-
+    // Экспорт функций
     return {
-        nextSlide,
-        prevSlide,
-        touchStart,
-        touchMove,
-        getTrack,
+        setRef,
+        clickNextSlide,
+        clickPrevSlide,
     }
 }
-
-export default useNextSlide;

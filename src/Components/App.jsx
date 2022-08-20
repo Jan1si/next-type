@@ -7,9 +7,9 @@ function App() {
     // Рендер приложения
     return(
         <div className="wrapper__app">
-            <Header />
+            <Header /> {/* Рендер компонента "Header" */}
             <div className="body__app">
-                <Tabs />
+                <Tabs /> {/* Рендер компонента "Tabs" */}
             </div>
         </div>
     );
